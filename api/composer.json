@@ -1,12 +1,13 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
+    "name": "api-cidadao",
+    "description": "Api para consumir dados de cidadãos.",
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": "^7.2",
-        "laravel/lumen-framework": "^6.0"
+        "laravel/lumen-framework": "^6.0",
+        "laravellegends/pt-br-validator": "6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
