@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +23,6 @@ class Person extends Model {
 
     public function contacts()
     {
-        return $this->hasMany('App\Model\Contact');
+        return $this->hasMany('\App\Models\Contact', 'person_id', 'id');
     }
 }

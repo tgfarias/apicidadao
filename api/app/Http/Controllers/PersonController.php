@@ -2,106 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Person;
-use App\Model\Contact;
 use Illuminate\Http\Request;
-use Validator;
+
+use App\Services\PersonService;
+
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class PersonController extends Controller
 {
+
+    private $service;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+
+    public function __construct(PersonService $service)
     {
-        //
-    }
+        $this->service = $service;
+     }
 
     public function index()
     {
-        $persons = Person::orderBy('name', 'asc')->get();
-        return response()->json($persons);
-    }
-
-    public function create(Request $request)
-    {
-
-        $person = new Person;
-
-        $rules = [
-            'name' => 'required',
-            'lastname' => 'required',
-            'cpf' => 'required|min:11|max:14|unique:persons',
-            'postalcode' => 'min:8|max:9',
-        ];
-
-        $this->validate($request, $rules);
-
-        // $validate = Validator::make($request->all(), $rules, $messages);
-
-        // if($validate->fails()) {
-        //     return back()->witherrors($validate)->withInput();
-        // }
-        //dd($validator->fails());
-
-        $person->name = $request->name;
-        $person->lastname = $request->lastname;
-        $person->cpf = $request->cpf;
-        $person->postalcode = $request->postalcode;
-
-        $person->save();
-
-        $contact = new Contact;
-
-        foreach ($request->contacts as $c) {
-            $contact->type = $c['type'];
-            $contact->contact = $c['contact'];
-            $contact->person_id = $person->id;
-            $contact->save();
-            $person->contacts[] = $contact;
-
+        try {
+            return response()->json($this->service->index(), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
         }
-
-        return response()->json($person, 201);
     }
 
     public function show($cpf)
     {
-        $data = ['cpf' => $cpf];
-
-        $validator = \Validator::make($data, [
-            'cpf' => 'required|cpf'
-        ]);
-
-        if ($validator->fails()) {
-            return $validator->errors();
+        $person = $this->service->show($cpf);
+        try {
+            return response()->json($person, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
         }
-
-        $person = Person::where('cpf', '=', $cpf)->firstOrFail();
-
-        return response()->json($person);
     }
+
+    public function create(Request $request)
+    {
+        // try {
+            return $this->service->create($request->all());
+        //     ,
+        //         Response::HTTP_CREATED
+        //     );
+        // } catch (\Exception $e) {
+        //     return $this->error($e->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+    }
+
+
 
     public function update(Request $request, $cpf)
     {
-        $person = Person::where('cpf', '=', $cpf)->firstOrFail();
+        // $person = Person::where('cpf', '=', $cpf)->firstOrFail();
 
-        $person->name = $request->name;
-        $person->lastname = $request->lastname;
-        $person->cpf = $request->cpf;
-        $person->postalcode = $request->postalcode;
-        $person->save();
+        // $person->name = $request->name;
+        // $person->lastname = $request->lastname;
+        // // $person->cpf = $request->cpf;
+        // $person->postalcode = $request->postalcode;
+        // $person->save();
 
-        return response()->json($person);
+        // return response()->json($person, 'status' => Response::HTTP_OK);
+
+        try {
+            return response()->json(
+                $this->service->update($cpf, $request->all()),
+                Response::HTTP_OK
+            );
+        } catch (CustomValidationException $e) {
+            return $this->error($e->getMessage(), $e->getDetails());
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
     public function destroy($cpf)
     {
-        $person = Person::where('cpf', '=', $cpf)->firstOrFail();
-        $person->delete();
-        return response()->json('Cidadão removido com sucesso');
+        // $person = Person::where('cpf', '=', $cpf)->firstOrFail();
+        // $person->delete();
+        // return response()->json('Cidadão removido com sucesso', 'status' => Response::HTTP_OK);
+
+        try {
+            return response()->json(
+                $this->service->destroy($cpf),
+                Response::HTTP_OK
+            );
+        } catch (\Exception $e) {
+        return $this->error($e->getMessage());
+        }
     }
 
     //

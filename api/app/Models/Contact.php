@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,13 +12,15 @@ class Contact extends Model {
 
     protected $fillable = [
         'person_id',
-        'type',
-        'contact'
+        //'type',
+        'phone',
+        'email',
+        'cellphone',
     ];
 
     public function person()
     {
-        return $this->belongsTo('Person');
+        return $this->belongsTo('\App\Models\Person', 'person_id', 'id');
     }
 
 }
