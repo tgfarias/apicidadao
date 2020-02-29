@@ -23,11 +23,10 @@ class AddressService
 
         $this->postalCode = $this->format($postalCode);
         try {
-
             $result = $this->client->request('GET', 'https://viacep.com.br/ws/' . $this->postalCode .'/json');
             if ($result->getStatusCode() == Response::HTTP_OK) {
                 $r = json_decode($result->getBody()->getContents());
-                if ($r->erro) {
+                if (isset($r->erro)) {
                     return array('data' => 'Falha ao buscar o cep', 'error' => true);
                 } else {
                     $this->return['postalcode'] = $this->postalCode;

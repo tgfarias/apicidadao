@@ -10,6 +10,6 @@ interface PersonRepositoryInterface
     public function index();
     public function show($cpf);
     public function create(array $data);
-    public function update($cpf, array $data);
+    public function update(array $data, $cpf);
     public function destroy($cpf);
 }

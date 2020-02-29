@@ -13,4 +13,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN a2enmod rewrite headers
 
-ADD ./ /var/www/html/
+ADD ./api /var/www/html/
+
+RUN composer install --no-dev --prefer-dist --optimize-autoloader && \
+    composer clear-cache
+
+WORKDIR /var/www/html/public

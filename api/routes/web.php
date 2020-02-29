@@ -14,9 +14,10 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-
-$router->get('/persons', 'PersonController@index');
-$router->post('/person', 'PersonController@create');
-$router->get('/person/{cpf}', 'PersonController@show');
-$router->put('/person/{cpf}', 'PersonController@update');
-$router->delete('/person/{cpf}', 'PersonController@destroy');
+$router->group(['prefix' => '/api'], function ($router) {
+    $router->get('/persons', 'PersonController@index');
+    $router->post('/person', 'PersonController@create');
+    $router->get('/person/{cpf}', 'PersonController@show');
+    $router->put('/person/{cpf}', 'PersonController@update');
+    $router->delete('/person/{cpf}', 'PersonController@destroy');
+});

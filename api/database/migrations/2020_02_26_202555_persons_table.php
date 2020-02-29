@@ -18,9 +18,9 @@ class PersonsTable extends Migration
             $table->string('name', 100)->nullable(false);
             $table->string('lastname', 100)->nullable(false);
             $table->string('cpf', 11)->unique()->nullable(false);
-            $table->string('phone', 10)->nullable();
+            $table->string('phone', 14)->nullable();
             $table->string('email', 100)->nullable();
-            $table->string('cellphone', 11)->nullable();
+            $table->string('cellphone', 15)->nullable();
             $table->string('postalcode', 8)->nullable();
             $table->string('plane', 150)->nullable();
             $table->string('district', 50)->nullable();

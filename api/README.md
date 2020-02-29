@@ -1,34 +1,97 @@
-# Lumen PHP Framework
+# API Cidadão
 
-## API Cidadão
+API Cidadão para teste prático.
 
-- Start docker container
-  docker-compose up -d --build
+  - Acesso via Postman
+  - Acesso via console para cadastro
 
-- Access container docker - commands
-  docker exec [container=app] composer install
+# Instalação
 
--
+1. Baixar o projeto do git
+```sh
+    git clone git@github.com:tgfarias/apicidadao.git
+```
+2. Iniciar container docker no seu S.O
+```sh
+    docker-compose up -d --build
+```
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+3. Subindo a base de dados
+```sh
+    docker exec php /var/www/html/artisan migrate
+```
+4. Url da api - {base_url}
+```sh
+{base_url}=http://localhost/public
+```
+# Rotas
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Lista de cidadãos
+```sh
+{base_url}/api/persons - METHOD [GET]
 
-## Official Documentation
+http://localhost/public/api/persons
+```
+Consultar cidadão por CPF VÁLIDO
+```sh
+{base_url}/api/person/{cpf} - METHOD [GET]
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+http://localhost/public/api/person/19873792090
+```
+Inserir um cidadão
+```sh
+{base_url}/api/person/ - METHOD [POST]
 
-## Contributing
+http://localhost/public/api/person/
+```
+Atualizar um cidadão
+```sh
+{base_url}/api/person/{cpf} - METHOD [PUT]
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+http://localhost/public/api/person/19873792090
+```
+Remover um cidadão
+```sh
+{base_url}/api/person/{cpf} - METHOD [DELETE]
 
-## Security Vulnerabilities
+http://localhost/public/api/person/19873792090
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+# Acesso via terminal
 
-## License
+ É necessário acessar a máquina docker [CONTAINER]=app para o cadastro de cidadão via terminal/controle:
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Métodos para acesso via terminal
+   - [create-interactive.php]
+   - [create-person.php]
+
+Acessando a máquina docker
+```sh
+docker exec -it app bash
+```
+Chamada da função interativa:
+```sh
+php var/www/html/artisan create-interactive.php
+```
+Chamada da função por parâmetros:
+- Inserir Cidadão com a seguinte ordem: {nome} {sobrenome} {cpf} {telefone} {email} {celular} {cep}
+- telefone/email/celular usar aspas simples ' '
+- telefone/celular usar padrão ddd com hífen. Ex.: (99) 9999-9999
+
+```sh
+php var/www/html/artisan create-person.php
+```
+
+### Tecnlogias utilizadas
+
+#### Lumen
+A escolha do framework [Lumen](https://lumen.laravel.com/) para desenvolvimento deste teste foi feita pelo fato de ser um micro-framework voltado para contruções de API, indepentende do padrão utilizado, REST ou GraphQL. O fw já trás uma arquitetura preparada para este tipo de projeto, desde usuários até as rotas de manipulação dos dados via acesso externo.
+Este fw é baseado no [Laravel](https://laravel.com/) onde existe uma extensa comunidade ativa e inúmeros pacotes para integração do seu projeto. É um fw eficaz que facilita e agiliza o seu processo de criação de software.
+#### Docker
+O [docker](https://www.docker.com/) é uma plataforma que agiliza o processo de desenvolvimento sem ter que estar motando o ambiente de programação na sua máquina, através de containers você monta rapidamente seu ambiente e já começa a trabalhar.
+
+
+License
+----
+
+MIT

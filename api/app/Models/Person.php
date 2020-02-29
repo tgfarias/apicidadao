@@ -14,6 +14,9 @@ class Person extends Model {
         'name',
         'lastname',
         'cpf',
+        'phone',
+        'email',
+        'cellphone',
         'postalcode',
         'plane',
         'district',
@@ -21,8 +24,4 @@ class Person extends Model {
         'state'
     ];
 
-    public function contacts()
-    {
-        return $this->hasMany('\App\Models\Contact', 'person_id', 'id');
-    }
 }

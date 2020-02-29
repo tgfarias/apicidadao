@@ -28,16 +28,18 @@ class PersonRepositoryEloquent implements PersonRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update($cpf, array $data)
+    public function update(array $data, $cpf)
     {
+
         $person = $this->model::where('cpf', '=', $cpf)->firstOrFail();
-        return $person->update($data);
+        $person->update($data);
+        return $person;
 
     }
 
     public function destroy($cpf)
     {
         $person = $this->model::where('cpf', '=', $cpf)->firstOrFail();
-        return $person->destroy();
+        return $person->destroy($person->id);
     }
 }
