@@ -5,25 +5,71 @@ API Cidadão para teste prático.
   - Acesso via Postman
   - Acesso via console para cadastro
 
-# Instalação
+# Instalação 
 
 1. Baixar o projeto do git
 ```sh
     git clone git@github.com:tgfarias/apicidadao.git
 ```
+
+## Via docker
+
 2. Iniciar container docker no seu S.O
 ```sh
     docker-compose up -d --build
 ```
-
-3. Subindo a base de dados
+3. Criar uma cópia do arquivo .env.example para .env e adicionar as configurações do banco de dados.
 ```sh
-    docker exec php /var/www/html/artisan migrate
+    cp .env.exemple .env
 ```
-4. Url da api - {base_url}
+4. Subindo a base de dados
+```sh
+    docker exec api php /var/www/html/artisan migrate
+```
+5. Url da api - {base_url}
 ```sh
 {base_url}=http://localhost/public
 ```
+
+## Via servidor embutido do PHP
+
+2. Instalar as dependências do projeto
+```sh
+composer install
+```
+3. Criar o arquivo de configuração .env
+```sh
+cp .env.exemple .env
+```
+4. Editar o arquivo .env com as configurações do banco de dados
+```sh
+DB_CONNECTION=mysql
+
+  Mysql - mysql
+  Postgres - pgsql
+  Sqlserver - sqlsrv
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=cidadao
+DB_USERNAME=root
+DB_PASSWORD=root
+
+DB_HOST - Host do banco
+DB_PORT - Porta do banco
+DB_DATABASE - Nome do banco
+DB_USERNAME - Usuário do banco
+```
+5. Rodar a migration para criação das tabelas
+```sh
+php artisan migrate
+```
+
+6. Subir o servidor embutido
+```sh
+php -S localhost:80 -t public
+```
+
 # Rotas
 
 Lista de cidadãos
