@@ -20,7 +20,7 @@ API Cidadão para teste prático.
 ```
 3. Criar uma cópia do arquivo .env.example para .env e adicionar as configurações do banco de dados.
 ```sh
-    cp .env.exemple .env
+    cp .env.example .env
 ```
 4. Subindo a base de dados
 ```sh
