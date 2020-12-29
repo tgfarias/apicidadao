@@ -1,7 +1,7 @@
 version: '2.1'
 services:
-  app:
-    container_name: app
+  api:
+    container_name: api
     build: .
     ports:
       - "80:80"
@@ -17,7 +17,7 @@ services:
       - MYSQL_PASSWORD=root
       - APP_ENV=development
       - WEB_DOCUMENT_ROOT=/var/www/html/public
-  app_db:
+  api_db:
     image: mysql:5.6
     container_name: api_db
     ports:
